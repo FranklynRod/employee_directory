@@ -1,4 +1,4 @@
-const cards = document.querySelectorAll(".card");
+const gallery = document.querySelector(".gallery");
 // const modal= document.querySelectorAll(".modal");
 
 const getEmployees = async () => {
@@ -17,12 +17,22 @@ const getEmployees = async () => {
 getEmployees();
 
 const displayEmployees = (results) => {
-  cards.forEach((card, index) => {
-    const user = results[index];
-    const html = `<div class="card"><div class="card-img-container"><img src="${user.picture.large}" alt="Image of ${user.name.first} ${user.name.last}"></div><h3>${user.name.first} ${user.name.last}</h3><p>${user.email}</p><p>${user.location.city}</p><p>${user.location.state}</p></div>`;
-    card.insertAdjacentHTML("beforeend", html);
-  });
+  const employees = results.map(user => `<div class="card">
+  <div class="card-img-container">
+  <img class="card-img" src="${user.picture.large}" alt="Image of ${user.name.first} ${user.name.last}">
+  </div>
+  <div class="card-info-container">
+  <h3 id="name" class="card-name cap">${user.name.first} ${user.name.last}</h3>
+  <p class="card-text">${user.email}</p>
+  <p class="card-text cap">${user.location.city},${user.location.state}</p>
+  </div>
+  </div>`).join("");
+   ;
+  
+    gallery.insertAdjacentHTML("beforeend", employees);
+    
 };
+
 
 
 //fetch modal 
