@@ -1,5 +1,6 @@
 const gallery = document.querySelector(".gallery");
-// const modal= document.querySelectorAll(".modal");
+const modal= document.querySelectorAll(".modal-container");
+const search = document.querySelector('.search-container')
 
 const getEmployees = async () => {
   try {
@@ -33,13 +34,34 @@ const displayEmployees = (results) => {
     
 };
 
+window.onload = () => {
+const html = `<form action="#" method="get">
+<input type="search" id="search-input" class="search-input" placeholder="Search...">
+<input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
+</form>`;
+search.insertAdjacentHTML("beforeend", html);
+};
 
 
-//fetch modal 
-// {
-//   /* <p>${data.phone}</p><p>${data.location.street} or ${data.location.postcode}</p><p>${data.dob}</p> */
+body.addEventListener("keyup", (e) => {
+   const currentValue = e.target.value.toLowerCase();
+   const employeesNames = document.querySelectorAll("card-name cap");
+   employeesNames.forEach(employee =>{
+   if (employee.textContent.toLowerCase().includes(currentValue)){
+      employee.parentNode.parentNode.style.display = "block";
+   } else{employee.parentNode.parentNode.style.display = "none"}
+  })
+}); 
+
+
+// modal.addEventListener('click', (e)=> {
+//   employeeModal = e.target.closest('modal-info-container')
+//   if (employeeModal){
+//     displayModal();
+//   }
+// });
+
+// const displayModal = () => {
+//   const html = ``;
 // }
 
-
-// card.addEventListener('click', );
-//Event listener to close modal by clickin on arrow or overlay
