@@ -1,6 +1,7 @@
 const gallery = document.querySelector(".gallery");
 const modal= document.querySelectorAll(".modal-container");
 const search = document.querySelector('.search-container')
+const body = document.querySelector("body")
 
 const getEmployees = async () => {
   try {
