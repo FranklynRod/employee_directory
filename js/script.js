@@ -1,7 +1,10 @@
 const gallery = document.querySelector(".gallery");
-const modal= document.querySelectorAll(".modal-container");
-const search = document.querySelector('.search-container')
-const body = document.querySelector("body")
+const modal= document.querySelector(".modal");
+const search = document.querySelector('.search-container');
+const body = document.querySelector("body");
+const button = document.getElementById("modal-close-btn");
+
+let employeeData = []
 
 const getEmployees = async () => {
   try {
@@ -9,6 +12,7 @@ const getEmployees = async () => {
       "https://randomuser.me/api/?format=json&results=12"
     );
     const data = await response.json();
+    employeeData = data.results
     console.log(data.results);
     displayEmployees(data.results);
   } catch (error) {
@@ -43,10 +47,9 @@ const html = `<form action="#" method="get">
 search.insertAdjacentHTML("beforeend", html);
 };
 
-
-body.addEventListener("keyup", (e) => {
+search.addEventListener("keyup", (e) => {
    const currentValue = e.target.value.toLowerCase();
-   const employeesNames = document.querySelectorAll("card-name cap");
+   const employeesNames = document.querySelectorAll(".card-name.cap");
    employeesNames.forEach(employee =>{
    if (employee.textContent.toLowerCase().includes(currentValue)){
       employee.parentNode.parentNode.style.display = "block";
@@ -54,15 +57,39 @@ body.addEventListener("keyup", (e) => {
   })
 }); 
 
+gallery.addEventListener('click', (e) => {
+    const employeeModal = e.target.closest('.card');
+    
+    if (employeeModal) {
+      const employeeName = employeeModal.querySelector("#name").textContent;
+      const user = employeeData.find((employee) => employee.name.first +" "+ employee.name.last === employeeName)
+      console.log(user)
+      const html = `
+      <div class="modal-container">
+                <div class="modal">
+                    <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+                    <div class="modal-info-container">
+      <img class="modal-img" src="${user.picture.thumbnail}" alt="Image of ${user.name.first} ${user.name.last}">
+      <h3 id="name" class="modal-name cap">${user.name.first} ${user.name.last}</h3>
+      <p class="modal-text">${user.email}</p>
+      <p class="modal-text cap">${user.location.city}</p>
+      <hr>
+      <p class="modal-text">${user.phone}</p>
+      <p class="modal-text">${user.location.street.name}${user.location.city}</p>
+      <p class="modal-text">Birthday: ${user.dob.date}</p>
+      </div>
+      </div>`;
+     body.insertAdjacentHTML("beforeend", html); 
+    }
+  });
 
-// modal.addEventListener('click', (e)=> {
-//   employeeModal = e.target.closest('modal-info-container')
-//   if (employeeModal){
-//     displayModal();
-//   }
-// });
+body.addEventListener("click" , (e) =>{
+    const clickedButton = e.target.classList.contains('modal-close-btn')
+    if (clickedButton){
+      modal.style.display = "none"
+    } 
+  });
 
-// const displayModal = () => {
-//   const html = ``;
-// }
+
+
 
