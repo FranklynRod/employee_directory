@@ -1,5 +1,5 @@
+//Query Selectors
 const gallery = document.querySelector(".gallery");
-const modal= document.querySelector(".modal-info-container");
 const search = document.querySelector('.search-container');
 const body = document.querySelector("body");
 const button = document.getElementById("modal-close-btn");
@@ -13,7 +13,7 @@ const getEmployees = async () => {
     );
     const data = await response.json();
     employeeData = data.results
-    console.log(data.results);
+    // console.log(data.results);
     displayEmployees(data.results);
   } catch (error) {
     console.log(error);
@@ -22,8 +22,9 @@ const getEmployees = async () => {
 
 getEmployees();
 
-const displayEmployees = (results) => {
-  const employees = results.map(user => `<div class="card">
+const displayEmployees = (employeeData) => {
+  const employees = employeeData.map(user => 
+    `<div class="card">
   <div class="card-img-container">
   <img class="card-img" src="${user.picture.large}" alt="Image of ${user.name.first} ${user.name.last}">
   </div>
@@ -38,6 +39,34 @@ const displayEmployees = (results) => {
     gallery.insertAdjacentHTML("beforeend", employees);
     
 };
+
+// const displayModal = (employeeData) =>{
+//   const employee = employeeData.map(user =>
+//   `
+//   <div class="modal-container">
+//             <div class="modal">
+//                 <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+//                 <div class="modal-info-container">
+//   <img class="modal-img" src="${user.picture.thumbnail}" alt="Image of ${user.name.first} ${user.name.last}">
+//   <h3 id="name" class="modal-name cap">${user.name.first} ${user.name.last}</h3>
+//   <p class="modal-text">${user.email}</p>
+//   <p class="modal-text cap">${user.location.city}</p>
+//   <hr>
+//   <p class="modal-text">${user.phone}</p>
+//   <p class="modal-text">${user.location.street.name}${user.location.city}</p>
+//   <p class="modal-text">Birthday: ${user.dob.date}</p>
+//   </div>
+//   </div>
+//   <div class="modal-btn-container">
+//                 <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
+//                 <button type="button" id="modal-next" class="modal-next btn">Next</button>
+//             </div>
+//         </div>`);
+//  body.insertAdjacentHTML("beforeend", employee); 
+
+// }
+
+//Event Listener
 
 window.onload = () => {
 const html = `<form action="#" method="get">
@@ -63,7 +92,8 @@ gallery.addEventListener('click', (e) => {
     if (employeeModal) {
       const employeeName = employeeModal.querySelector("#name").textContent;
       const user = employeeData.find((employee) => employee.name.first +" "+ employee.name.last === employeeName)
-      console.log(user)
+      // console.log(user)
+      // displayModal(employeeData)
       const html = `
       <div class="modal-container">
                 <div class="modal">
@@ -78,20 +108,25 @@ gallery.addEventListener('click', (e) => {
       <p class="modal-text">${user.location.street.name}${user.location.city}</p>
       <p class="modal-text">Birthday: ${user.dob.date}</p>
       </div>
-      </div>`;
+      </div>
+      <div class="modal-btn-container">
+                    <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
+                    <button type="button" id="modal-next" class="modal-next btn">Next</button>
+                </div>
+            </div>`;
      body.insertAdjacentHTML("beforeend", html); 
     }
   });
 
+
 body.addEventListener("click" , (e) =>{
-  console.log(e.target)
-    const clickedButton = e.target.closest('modal-close-btn')
-    if (clickedButton){
-      if (clickedButton.textContent.includes('X')){
-        modal.style.display = "none";
-      }
-        
-    } 
+    const modal= document.querySelector(".modal");
+    // const clickedPrev = e.target.classList.contains("modal-prev btn")
+    // const clickedNext =  e.target.classList.contains("modal-next btn")
+    const clickedButton = e.target.closest('modal-close-btn');
+      if (clickedButton){
+        modal.remove();
+      } 
   });
 
 
