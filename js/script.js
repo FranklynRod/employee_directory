@@ -121,6 +121,7 @@ gallery.addEventListener('click', (e) => {
 
 body.addEventListener("click" , (e) =>{
     const modal= document.querySelector(".modal");
+    const modalContainer = document.querySelector(".modal-container")
     const modalButtons = document.querySelector(".modal-btn-container")
     const clickedPrev = e.target.classList.contains("modal-prev btn")
     const clickedNext =  e.target.classList.contains("modal-next btn")
@@ -128,7 +129,7 @@ body.addEventListener("click" , (e) =>{
     if (clickedButton){
       modal.remove()
       modalButtons.remove();
-      
+      modalContainer.remove();
     } 
     if (clickedPrev){
       //modal before
