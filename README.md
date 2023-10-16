@@ -4,6 +4,7 @@ Find out more [here](https://teamtreehouse.com/home)
 ## Features 
 - Search Bar
 - Modal
+- Accessible way to remove module with escape button
 - Randomization of Employee Cards
 - Customized Styling: Background
 

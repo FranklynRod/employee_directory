@@ -2,7 +2,7 @@
 const gallery = document.querySelector(".gallery");
 const search = document.querySelector('.search-container');
 const body = document.querySelector("body");
-const button = document.getElementById("modal-close-btn");
+
 
 let employeeData = []
 
@@ -40,31 +40,29 @@ const displayEmployees = (employeeData) => {
     
 };
 
-// const displayModal = (employeeData) =>{
-//   const employee = employeeData.map(user =>
-//   `
-//   <div class="modal-container">
-//             <div class="modal">
-//                 <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
-//                 <div class="modal-info-container">
-//   <img class="modal-img" src="${user.picture.thumbnail}" alt="Image of ${user.name.first} ${user.name.last}">
-//   <h3 id="name" class="modal-name cap">${user.name.first} ${user.name.last}</h3>
-//   <p class="modal-text">${user.email}</p>
-//   <p class="modal-text cap">${user.location.city}</p>
-//   <hr>
-//   <p class="modal-text">${user.phone}</p>
-//   <p class="modal-text">${user.location.street.name}${user.location.city}</p>
-//   <p class="modal-text">Birthday: ${user.dob.date}</p>
-//   </div>
-//   </div>
-//   <div class="modal-btn-container">
-//                 <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
-//                 <button type="button" id="modal-next" class="modal-next btn">Next</button>
-//             </div>
-//         </div>`);
-//  body.insertAdjacentHTML("beforeend", employee); 
-
-// }
+const displayModal = (user) =>{
+ const employee = `
+  <div class="modal-container">
+            <div class="modal">
+                <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+                <div class="modal-info-container">
+  <img class="modal-img" src="${user.picture.thumbnail}" alt="Image of ${user.name.first} ${user.name.last}">
+  <h3 id="name" class="modal-name cap">${user.name.first} ${user.name.last}</h3>
+  <p class="modal-text">${user.email}</p>
+  <p class="modal-text cap">${user.location.city}</p>
+  <hr>
+  <p class="modal-text">${user.phone}</p>
+  <p class="modal-text">${user.location.street.name}${user.location.city}</p>
+  <p class="modal-text">Birthday: ${user.dob.date}</p>
+  </div>
+  </div>
+  <div class="modal-btn-container">
+                <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
+                <button type="button" id="modal-next" class="modal-next btn">Next</button>
+            </div>
+        </div>`;
+ body.insertAdjacentHTML("beforeend", employee); 
+}
 
 //Event Listener
 
@@ -92,53 +90,49 @@ gallery.addEventListener('click', (e) => {
     if (employeeModal) {
       const employeeName = employeeModal.querySelector("#name").textContent;
       const user = employeeData.find((employee) => employee.name.first +" "+ employee.name.last === employeeName)
-      // console.log(user)
-      // displayModal(employeeData)
-      const html = `
-      <div class="modal-container">
-                <div class="modal">
-                    <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
-                    <div class="modal-info-container">
-      <img class="modal-img" src="${user.picture.thumbnail}" alt="Image of ${user.name.first} ${user.name.last}">
-      <h3 id="name" class="modal-name cap">${user.name.first} ${user.name.last}</h3>
-      <p class="modal-text">${user.email}</p>
-      <p class="modal-text cap">${user.location.city}</p>
-      <hr>
-      <p class="modal-text">${user.phone}</p>
-      <p class="modal-text">${user.location.street.name}${user.location.city}</p>
-      <p class="modal-text">Birthday: ${user.dob.date}</p>
-      </div>
-      </div>
-      <div class="modal-btn-container">
-                    <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
-                    <button type="button" id="modal-next" class="modal-next btn">Next</button>
-                </div>
-            </div>`;
-     body.insertAdjacentHTML("beforeend", html); 
+      displayModal(user);
     }
   });
 
+  //Accessible way to remove module
 
-body.addEventListener("click" , (e) =>{
+  body.addEventListener("keydown" , (e) =>{
     const modal= document.querySelector(".modal");
-    const modalContainer = document.querySelector(".modal-container")
     const modalButtons = document.querySelector(".modal-btn-container")
-    const clickedPrev = e.target.classList.contains("modal-prev btn")
-    const clickedNext =  e.target.classList.contains("modal-next btn")
-    const clickedButton = e.target.closest('#modal-close-btn')
-    if (clickedButton){
+    const modalContainer = document.querySelector(".modal-container")
+    if (e.key === 'Escape'){
       modal.remove()
       modalButtons.remove();
       modalContainer.remove();
-    } 
-    if (clickedPrev){
-      //modal before
+    }
+  });
 
-    }
-    if (clickedNext){
-      //modal after
+body.addEventListener("click" , (e) =>{
+    const modalContainer = document.querySelector(".modal-container")
+    const clickedPrev = e.target.classList.contains("modal-prev")
+    const clickedNext =  e.target.classList.contains("modal-next")
+    const clickedButton = e.target.closest('#modal-close-btn')
+    if (clickedButton){
+      modalContainer.remove();
+    } 
+    if (clickedPrev) {
+      const currentEmployee = document.querySelector(".modal-name").textContent;
+      const currentIndex = employeeData.findIndex((employee) => employee.name.first + " " + employee.name.last === currentEmployee);
+      console.log(currentEmployee)
+
+      if (currentIndex > 0) {
+          displayModal(employeeData[currentIndex - 1]);
+      }
+  }
+  
+  if (clickedNext) {
+      const currentEmployee = document.querySelector(".modal-name").textContent;
+      const currentIndex = employeeData.findIndex((employee) => employee.name.first + " " + employee.name.last === currentEmployee);
       
-    }
+      if (currentIndex < employeeData.length - 1) {
+          displayModal(employeeData[currentIndex + 1]);
+      }
+  }
   });
 
 
