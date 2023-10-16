@@ -121,12 +121,23 @@ gallery.addEventListener('click', (e) => {
 
 body.addEventListener("click" , (e) =>{
     const modal= document.querySelector(".modal");
-    // const clickedPrev = e.target.classList.contains("modal-prev btn")
-    // const clickedNext =  e.target.classList.contains("modal-next btn")
-    const clickedButton = e.target.closest('modal-close-btn');
-      if (clickedButton){
-        modal.remove();
-      } 
+    const modalButtons = document.querySelector(".modal-btn-container")
+    const clickedPrev = e.target.classList.contains("modal-prev btn")
+    const clickedNext =  e.target.classList.contains("modal-next btn")
+    const clickedButton = e.target.closest('#modal-close-btn')
+    if (clickedButton){
+      modal.remove()
+      modalButtons.remove();
+      
+    } 
+    if (clickedPrev){
+      //modal before
+
+    }
+    if (clickedNext){
+      //modal after
+      
+    }
   });
 
 
