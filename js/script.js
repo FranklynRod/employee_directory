@@ -1,5 +1,5 @@
 const gallery = document.querySelector(".gallery");
-const modal= document.querySelector(".modal");
+const modal= document.querySelector(".modal-info-container");
 const search = document.querySelector('.search-container');
 const body = document.querySelector("body");
 const button = document.getElementById("modal-close-btn");
@@ -84,9 +84,13 @@ gallery.addEventListener('click', (e) => {
   });
 
 body.addEventListener("click" , (e) =>{
-    const clickedButton = e.target.classList.contains('modal-close-btn')
+  console.log(e.target)
+    const clickedButton = e.target.closest('modal-close-btn')
     if (clickedButton){
-      modal.style.display = "none"
+      if (clickedButton.textContent.includes('X')){
+        modal.style.display = "none";
+      }
+        
     } 
   });
 
