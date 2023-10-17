@@ -6,6 +6,7 @@ const body = document.querySelector("body");
 
 let employeeData = []
 
+//Function to get data from API
 const getEmployees = async () => {
   try {
     const response = await fetch(
@@ -22,6 +23,7 @@ const getEmployees = async () => {
 
 getEmployees();
 
+//Function to display employee in UI
 const displayEmployees = (employeeData) => {
   const employees = employeeData.map(user => 
     `<div class="card">
@@ -40,6 +42,7 @@ const displayEmployees = (employeeData) => {
     
 };
 
+//Function to display modal of one employee
 const displayModal = (user) =>{
  const employee = `
   <div class="modal-container">
@@ -64,8 +67,9 @@ const displayModal = (user) =>{
  body.insertAdjacentHTML("beforeend", employee); 
 }
 
-//Event Listener
+//Event Listeners
 
+//Creates search bar when loaded
 window.onload = () => {
 const html = `<form action="#" method="get">
 <input type="search" id="search-input" class="search-input" placeholder="Search...">
@@ -74,6 +78,7 @@ const html = `<form action="#" method="get">
 search.insertAdjacentHTML("beforeend", html);
 };
 
+//searches employees
 search.addEventListener("keyup", (e) => {
    const currentValue = e.target.value.toLowerCase();
    const employeesNames = document.querySelectorAll(".card-name.cap");
@@ -95,7 +100,6 @@ gallery.addEventListener('click', (e) => {
   });
 
   //Accessible way to remove module
-
   body.addEventListener("keydown" , (e) =>{
     const modal= document.querySelector(".modal");
     const modalButtons = document.querySelector(".modal-btn-container")
@@ -107,6 +111,7 @@ gallery.addEventListener('click', (e) => {
     }
   });
 
+//remove module and flip through employees in the modal view
 body.addEventListener("click" , (e) =>{
     const modalContainer = document.querySelector(".modal-container")
     const clickedPrev = e.target.classList.contains("modal-prev")
