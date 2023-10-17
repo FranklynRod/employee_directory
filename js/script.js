@@ -121,6 +121,7 @@ body.addEventListener("click" , (e) =>{
       console.log(currentEmployee)
 
       if (currentIndex > 0) {
+          modalContainer.remove();
           displayModal(employeeData[currentIndex - 1]);
       }
   }
@@ -130,6 +131,7 @@ body.addEventListener("click" , (e) =>{
       const currentIndex = employeeData.findIndex((employee) => employee.name.first + " " + employee.name.last === currentEmployee);
       
       if (currentIndex < employeeData.length - 1) {
+          modalContainer.remove();
           displayModal(employeeData[currentIndex + 1]);
       }
   }
