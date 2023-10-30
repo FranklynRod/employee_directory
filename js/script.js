@@ -67,7 +67,6 @@ const displayModal = (user) =>{
  body.insertAdjacentHTML("beforeend", employee); 
 
 }
-const button = document.getElementById("modal-close-btn");
 
 //Creates search bar when page is loaded
 window.onload = () => {
@@ -115,7 +114,7 @@ gallery.addEventListener('click', (e) => {
   });
 
 //Remove module and/or flip through employees in the modal view
-button.addEventListener("click" , (e) =>{
+body.addEventListener("click" , (e) =>{
     const modalContainer = document.querySelector(".modal-container")
     const clickedPrev = e.target.classList.contains("modal-prev")
     const clickedNext =  e.target.classList.contains("modal-next")
