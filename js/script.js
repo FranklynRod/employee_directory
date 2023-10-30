@@ -3,8 +3,8 @@ const gallery = document.querySelector(".gallery");
 const search = document.querySelector('.search-container');
 const body = document.querySelector("body");
 
-
-let employeeData = []
+//Variable that holds data results from API
+let employeeData = [];
 
 //Function to get data from API
 const getEmployees = async () => {
@@ -14,7 +14,6 @@ const getEmployees = async () => {
     );
     const data = await response.json();
     employeeData = data.results
-    // console.log(data.results);
     displayEmployees(data.results);
   } catch (error) {
     console.log(error);
@@ -23,7 +22,8 @@ const getEmployees = async () => {
 
 getEmployees();
 
-//Function to display employee in UI
+
+//Function to dynamically add HTML and display employees in UI
 const displayEmployees = (employeeData) => {
   const employees = employeeData.map(user => 
     `<div class="card">
@@ -42,7 +42,7 @@ const displayEmployees = (employeeData) => {
     
 };
 
-//Function to display modal of one employee
+//Function to displays modal of one employee
 const displayModal = (user) =>{
  const employee = `
   <div class="modal-container">
@@ -65,11 +65,11 @@ const displayModal = (user) =>{
             </div>
         </div>`;
  body.insertAdjacentHTML("beforeend", employee); 
+
 }
+const button = document.getElementById("modal-close-btn");
 
-//Event Listeners
-
-//Creates search bar when loaded
+//Creates search bar when page is loaded
 window.onload = () => {
 const html = `<form action="#" method="get">
 <input type="search" id="search-input" class="search-input" placeholder="Search...">
@@ -78,7 +78,9 @@ const html = `<form action="#" method="get">
 search.insertAdjacentHTML("beforeend", html);
 };
 
-//searches employees
+//Event Listeners 
+
+//Searches employees
 search.addEventListener("keyup", (e) => {
    const currentValue = e.target.value.toLowerCase();
    const employeesNames = document.querySelectorAll(".card-name.cap");
@@ -89,6 +91,7 @@ search.addEventListener("keyup", (e) => {
   })
 }); 
 
+//Event that will display modal when card is clicked
 gallery.addEventListener('click', (e) => {
     const employeeModal = e.target.closest('.card');
     
@@ -99,7 +102,7 @@ gallery.addEventListener('click', (e) => {
     }
   });
 
-  //Accessible way to remove module
+  //Event that allows user to keyboard to remove module (more accessible)
   body.addEventListener("keydown" , (e) =>{
     const modal= document.querySelector(".modal");
     const modalButtons = document.querySelector(".modal-btn-container")
@@ -111,8 +114,8 @@ gallery.addEventListener('click', (e) => {
     }
   });
 
-//remove module and flip through employees in the modal view
-body.addEventListener("click" , (e) =>{
+//Remove module and/or flip through employees in the modal view
+button.addEventListener("click" , (e) =>{
     const modalContainer = document.querySelector(".modal-container")
     const clickedPrev = e.target.classList.contains("modal-prev")
     const clickedNext =  e.target.classList.contains("modal-next")
